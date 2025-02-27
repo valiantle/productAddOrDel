@@ -1,0 +1,21 @@
+header {
+    display: flex;
+    justify-content: center;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+}
+input {
+    margin: 25px;
+    width: 250px;
+    height: 25px;
+    font-size: 23px;
+}
+form button {
+    width: 150px;
+    height: 25px;
+    font-size: 17px;
+}

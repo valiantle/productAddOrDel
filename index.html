@@ -8,6 +8,24 @@
     <script src="JavaScript/script.js" defer></script>
 </head>
 <body>
-    
+    <header>
+        <form>
+            <input id="addName" type="text"  maxlength="20" placeholder="Items NAME:">
+            <input id="addPrice" type="text"  maxlength="20" placeholder="Items PRICE:">
+            <input id="addDescription" type="text"  maxlength="20" placeholder="Items DESCRIPTION">
+            <button type="submit" id="addBut">add new item</button>
+        </form>
+        <form>
+            <input id="idInput" style="max-width: 120px !important;" type="number" placeholder="Items ID">
+            <input id="changeName" type="text"  maxlength="20" placeholder="Items NAME:">
+            <input id="changePrice" type="text"  maxlength="20" placeholder="Items PRICE:">
+            <input id="changeDescription" type="text"  maxlength="20" placeholder="Items DESCRIPTION">
+            <button id="changeBut" type="submit">change existed</button>
+        </form>
+    </header>
+    <hr>
+    <main>
+        <table id="productsDataTable"></table>
+    </main>
 </body>
 </html>
