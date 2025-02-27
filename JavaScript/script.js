@@ -9,27 +9,29 @@ let productsDataBase = [
         prodID: "1",
         name: "Aple",
         price: 2.99,
-        description: "dasdasdasd"
+        description: "test object - 1"
     },
     {
         prodID: "2",
         name: "Orange",
         price: 5.20,
-        description: "dasdasdasd"
+        description: "test object - 2"
     },
     {
         prodID: "3",
         name: "Saft",
         price: 3.80,
-        description: "dasdasdasd"
+        description: "test object - 3"
     },
 ];
 
 function idGenerator() {    //генерирует айди для след продукта пересчитывая колличество обьектов в массиве +1 
-    let nextID = 0;
+    let nextID = 1;
     for (let i = 0; i <= productsDataBase.length; i++) {
         nextID = nextID + 1
     }
+    nextID = nextID-2 ///////////////////////////////////////////////////////////////////////////////ЭТО ЖОСТКА ВАЖНЫЙ КОСТЛЬ КОТОРЫЙ ЧИНИТ ВСЮ ПРОЕБАНУЮ МНОЙ ЛОГИКУ АГА
+    //мем в том что все 150 строк кода идут нахер если не минус 2 кек
     return nextID.toString(); // будущий вывод в виде айди
 }
 
@@ -67,6 +69,9 @@ document.getElementById("addBut").addEventListener("click", function (event) {
         addNew();
         console.table(productsDataBase);
         createHtml ()
+        document.getElementById("addName").value = "";
+        document.getElementById("addPrice").value = "";
+        document.getElementById("addDescription").value = "";
     }
 });
 
@@ -101,11 +106,16 @@ document.getElementById("changeBut").addEventListener("click", function (event) 
             productsDataBase[i].description = newDescription;
             console.table(productsDataBase);
             createHtml ();
+            document.getElementById("changeName").value = "";
+            document.getElementById("changePrice").value = "";
+            document.getElementById("changeDescription").value = "";
+
             }
         }
     }
 });
 //функция по генерации хмл дока на основе имеющихся обьектов внутри массива
+createHtml(); // this needed to generate first 3 test objects inside
 function createHtml () {
     let table = document.getElementById("productsDataTable");
     table.innerHTML = "" //вытираем предыдущий результаты таблицы каждый раз генерируя ее с нуля во избежании клонирования результатов
@@ -113,7 +123,7 @@ function createHtml () {
     for( i=0; i < productsDataBase.length; i++ ) {
         let newRow = document.createElement("tr");
         newRow.innerHTML = 
-        "<td class='" + productsDataBase[i].prodID + "'>" + "<button id='" + productsDataBase[i].prodID + "' class='" + productsDataBase[i].prodID + "'>X</button>" + "</td>" +
+        "<td class='" + productsDataBase[i].prodID + "'>" + "<button name='BUTTON' id='" + productsDataBase[i].prodID + "' class='" + productsDataBase[i].prodID + "'>X</button>" + "</td>" +
         //дополнительно для кнопок задоем генерацию айди на базе
         "<td class='" + productsDataBase[i].prodID + "'>"+ productsDataBase[i].prodID +"</td>" +
         "<td class='" + productsDataBase[i].prodID + "'>"+ productsDataBase[i].name +"</td>" +
@@ -121,21 +131,30 @@ function createHtml () {
         "<td class='" + productsDataBase[i].prodID + "'>"+ productsDataBase[i].description +"</td>";
         table.appendChild(newRow);  //подвязывает к таблице дочерний элемент в данном случае строку новую
     }
-    let button = document.querySelector(".ID") // ищет в доме класс АЙДИ и передает его валью в вариаблу баттон *кстати странно ведь таких предметов с этим классом целых 5 но почему то выбирает только первый видимо изза того что повторяется только 1 раз и первым меняет именно первый элемент*который мне и нужен
-    if (button) { //если кнопка вариабла баттон является самой собой что всегда да передает ей ниже указанные цсс свойства
-        button.style.visibility = "hidden";
-        button.disabled  = "true"
-        button.style.pointerEvents = "none";
-    }
 }
 
 //функция по переназначению айди обьектов всего массива 
 function redoProdID () {
-    for (let i=0; i<productsDataBase.length; i++) {
+    //ух епт я почти попал в двухчасовое дебагувание но по итогу долшло что нельзя переписывать нулевой элемент т.к. там в айди не цифра что ломает некоторые действия с цифрой из айди в будущем т.е. просто начинаем с 1 а не 0 и радуемся жизни
+    for (let i=1; i<productsDataBase.length; i++) {
         productsDataBase[i].prodID = i.toString()
     }
 }
 
 //ивент листенер по всей таблице с определением ивент кнопки и удалением из массива элемента под тем же прод айди что прописан в айди кнопки
-
-function
+document.getElementById("productsDataTable").addEventListener("click", function(event){
+    if (event.target.name === "BUTTON") {
+        event.stopPropagation()
+        let targetID = event.target.id
+        for (let i = 0; i<productsDataBase.length; i++) {
+            if (targetID === productsDataBase[i].prodID) {
+                console.log("deleted items wit prod id:" + productsDataBase[i].prodID)
+                productsDataBase.splice(i, 1);
+                
+                break;
+            }
+        }
+        redoProdID();
+        createHtml();
+    }
+});
