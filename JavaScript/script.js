@@ -52,7 +52,7 @@ function addNew() {
 // кнопка запуска функции по добавлению новых предметов в массив
 document.getElementById("addBut").addEventListener("click", function (event) {
     event.preventDefault()                                           // SADSDEGGDFSHFGHGASFDSRFZGZGDGERATZESTZ§§%&TGARETG%$&§RGF пиздец я искал 4 часа баг почему пропадали значения массива данных а это спасибо
-    console.log("button clicked");                                   // стандартному поведению кнопки обновляющему страницу ситрая кэш и заодно обнуляя архив т.к. мы еще не учили базы данных в джейсоне или где ани там
+    // console.log("button clicked");                                   // стандартному поведению кнопки обновляющему страницу ситрая кэш и заодно обнуляя архив т.к. мы еще не учили базы данных в джейсоне или где ани там
     
     let name = document.getElementById("addName").value;
     let price = document.getElementById("addPrice").value;
@@ -67,7 +67,7 @@ document.getElementById("addBut").addEventListener("click", function (event) {
         return;
     } else { //если предыдущие проверки пройдены допускает к созданию обьекта
         addNew();
-        console.table(productsDataBase);
+        // console.table(productsDataBase);
         createHtml ()
         document.getElementById("addName").value = "";
         document.getElementById("addPrice").value = "";
@@ -79,7 +79,7 @@ document.getElementById("addBut").addEventListener("click", function (event) {
 
 document.getElementById("changeBut").addEventListener("click", function (event) {
     event.preventDefault();
-    console.log("changebut was clicked");
+    // console.log("changebut was clicked");
 
     let productInputID = parseFloat(document.getElementById("idInput").value);
 
@@ -104,7 +104,7 @@ document.getElementById("changeBut").addEventListener("click", function (event) 
             productsDataBase[i].name = newName;
             productsDataBase[i].price = newPrice;
             productsDataBase[i].description = newDescription;
-            console.table(productsDataBase);
+            // console.table(productsDataBase);
             createHtml ();
             document.getElementById("changeName").value = "";
             document.getElementById("changePrice").value = "";
@@ -135,7 +135,7 @@ function createHtml () {
 
 //функция по переназначению айди обьектов всего массива 
 function redoProdID () {
-    //ух епт я почти попал в двухчасовое дебагувание но по итогу долшло что нельзя переписывать нулевой элемент т.к. там в айди не цифра что ломает некоторые действия с цифрой из айди в будущем т.е. просто начинаем с 1 а не 0 и радуемся жизни
+//ух епт я почти попал в двухчасовое дебагувание но по итогу долшло что нельзя переписывать нулевой элемент т.к. там в айди не цифра что ломает некоторые действия с цифрой из айди в будущем т.е. просто начинаем с 1 а не 0 и радуемся жизни
     for (let i=1; i<productsDataBase.length; i++) {
         productsDataBase[i].prodID = i.toString()
     }
@@ -144,11 +144,11 @@ function redoProdID () {
 //ивент листенер по всей таблице с определением ивент кнопки и удалением из массива элемента под тем же прод айди что прописан в айди кнопки
 document.getElementById("productsDataTable").addEventListener("click", function(event){
     if (event.target.name === "BUTTON") {
-        event.stopPropagation()
+        // event.stopPropagation()
         let targetID = event.target.id
         for (let i = 0; i<productsDataBase.length; i++) {
             if (targetID === productsDataBase[i].prodID) {
-                console.log("deleted items wit prod id:" + productsDataBase[i].prodID)
+                // console.log("deleted items wit prod id:" + productsDataBase[i].prodID)
                 productsDataBase.splice(i, 1);
                 
                 break;
