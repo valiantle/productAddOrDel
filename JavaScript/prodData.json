@@ -1,0 +1,26 @@
+[
+    {
+        "prodID": "ID",
+        "name": "NAME",
+        "price":"PRICE",
+        "description": "DESCRIPTION"
+    },
+    {
+        "prodID": "1",
+        "name": "Aple",
+        "price": 2.99,
+        "description": "test object - 1"
+    },
+    {
+        "prodID": "2",
+        "name": "Orange",
+        "price": 5.20,
+        "description": "test object - 2"
+    },
+    {
+        "prodID": "3",
+        "name": "Saft",
+        "price": 3.80,
+        "description": "test object - 3"
+    }
+]

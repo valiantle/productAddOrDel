@@ -1,38 +1,18 @@
-let productsDataBase = [
-    {
-        prodID: "ID",
-        name: "NAME",
-        price:"PRICE",
-        description: "DESCRIPTION"
-    },
-    {
-        prodID: "1",
-        name: "Aple",
-        price: 2.99,
-        description: "test object - 1"
-    },
-    {
-        prodID: "2",
-        name: "Orange",
-        price: 5.20,
-        description: "test object - 2"
-    },
-    {
-        prodID: "3",
-        name: "Saft",
-        price: 3.80,
-        description: "test object - 3"
-    },
-];
+// fetch('prodData.json')
+let productsDataBase = JSON.parse(localStorage.getItem("prodDB")) || [];
 
 function idGenerator() {    //генерирует айди для след продукта пересчитывая колличество обьектов в массиве +1 
-    let nextID = 1;
+    let nextID = 0;
     for (let i = 0; i <= productsDataBase.length; i++) {
         nextID = nextID + 1
     }
-    nextID = nextID-2 ///////////////////////////////////////////////////////////////////////////////ЭТО ЖОСТКА ВАЖНЫЙ КОСТЛЬ КОТОРЫЙ ЧИНИТ ВСЮ ПРОЕБАНУЮ МНОЙ ЛОГИКУ АГА
+    nextID = nextID-1 ///////////////////////////////////////////////////////////////////////////////ЭТО ЖОСТКА ВАЖНЫЙ КОСТЛЬ КОТОРЫЙ ЧИНИТ ВСЮ ПРОЕБАНУЮ МНОЙ ЛОГИКУ АГА
     //мем в том что все 150 строк кода идут нахер если не минус 2 кек
     return nextID.toString(); // будущий вывод в виде айди
+}
+//функция по сохранению массива внутрь локал сторадж * будет использоваться после любого внесения в изменения самого массива
+function saveProd () {
+    localStorage.setItem("prodDB", JSON.stringify(productsDataBase));
 }
 
 //сама функция по добавлению новых обьектов в массив
@@ -40,19 +20,26 @@ function addNew() {
     let name = document.getElementById("addName").value
     let price = parseFloat(document.getElementById("addPrice").value);
     let description = document.getElementById("addDescription").value
-    const newProd = {
-        prodID: idGenerator(),
-        name: name,
-        price: price,
-        description: description
+    if (!name || isNaN(price) === true || !description){
+        alert("pls fill in all input fields")
+        return;
+    } else {
+        const newProd = {
+            prodID: idGenerator(),
+            name: name,
+            price: price,
+            description: description
+        }
+        productsDataBase.push(newProd);
+        saveProd();
     }
-    productsDataBase.push(newProd);
-
+    
 }
+
 // кнопка запуска функции по добавлению новых предметов в массив
 document.getElementById("addBut").addEventListener("click", function (event) {
     event.preventDefault()                                           // SADSDEGGDFSHFGHGASFDSRFZGZGDGERATZESTZ§§%&TGARETG%$&§RGF пиздец я искал 4 часа баг почему пропадали значения массива данных а это спасибо
-    // console.log("button clicked");                                   // стандартному поведению кнопки обновляющему страницу ситрая кэш и заодно обнуляя архив т.к. мы еще не учили базы данных в джейсоне или где ани там
+    // console.log("button clicked");                                 // стандартному поведению кнопки обновляющему страницу ситрая кэш и заодно обнуляя архив т.к. мы еще не учили базы данных в джейсоне или где ани там
     
     let name = document.getElementById("addName").value;
     let price = document.getElementById("addPrice").value;
@@ -89,14 +76,14 @@ document.getElementById("changeBut").addEventListener("click", function (event) 
 
     if(isNaN(productInputID) === true || isNaN(newPrice) === true) {
         alert("Pls use only whole numbers inside items ID field");   //если в поле айди или новой цены не число т.е. мат действия выдадут нан тоже нельзя
-        return;
-    } else if (productInputID<1 || productInputID>productsDataBase.length) {
-        alert("there is no such product with that ID"); // проверка на длину если выше 20 символов то нельзя
-        return;
+
+    } else if (productInputID<0 || productInputID>productsDataBase.length) {
+        alert("there is no such product with that ID"); // проверка на наличие такого айди, т.к. у меня айди генерируются основываясь на колличестве обьектов массива все числа что выше или ниже колличества не существуют + 0 обьект нельзя менять поэтому меньше 1 а не меньше 0
+
     } else if (newName.length >= 21 || newPrice.length >=21 || newDescription.length>=21) {
         //чекает что бы ввод не превышал 20 символов
         alert("Fields cannot be longer than 20 characters.");
-        return;
+
     } else {
         //переписывает значения ключей внутри обьекта под тем индексом под которым продуктинпутАЙДИ совпадает с числом внутри ключа продАЙДИ в массиве проддатабейс
         for (let i = 0; i<productsDataBase.length; i++) {
@@ -112,6 +99,7 @@ document.getElementById("changeBut").addEventListener("click", function (event) 
 
             }
         }
+        saveProd();
     }
 });
 //функция по генерации хмл дока на основе имеющихся обьектов внутри массива
@@ -136,7 +124,7 @@ function createHtml () {
 //функция по переназначению айди обьектов всего массива 
 function redoProdID () {
 //ух епт я почти попал в двухчасовое дебагувание но по итогу долшло что нельзя переписывать нулевой элемент т.к. там в айди не цифра что ломает некоторые действия с цифрой из айди в будущем т.е. просто начинаем с 1 а не 0 и радуемся жизни
-    for (let i=1; i<productsDataBase.length; i++) {
+    for (let i=0; i<productsDataBase.length; i++) {
         productsDataBase[i].prodID = i.toString()
     }
 }
@@ -155,6 +143,7 @@ document.getElementById("productsDataTable").addEventListener("click", function(
             }
         }
         redoProdID();
+        saveProd();
         createHtml();
     }
 });
