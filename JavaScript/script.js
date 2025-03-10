@@ -14,9 +14,18 @@ function idGenerator() {    //генерирует айди для след пр
 function saveProd () {
     localStorage.setItem("prodDB", JSON.stringify(productsDataBase));
 }
-
+//class product для генерации продуктов по шаблону конструктора
+class Product {
+    constructor(prodID, name, price, description) {
+        this.prodID = prodID;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
+}
 //сама функция по добавлению новых обьектов в массив
 function addNew() {
+    let prodID = idGenerator();
     let name = document.getElementById("addName").value
     let price = parseFloat(document.getElementById("addPrice").value);
     let description = document.getElementById("addDescription").value
@@ -24,13 +33,15 @@ function addNew() {
         alert("pls fill in all input fields")
         return;
     } else {
-        const newProd = {
-            prodID: idGenerator(),
-            name: name,
-            price: price,
-            description: description
-        }
-        productsDataBase.push(newProd);
+        
+        // const newProd = {
+        //     prodID: idGenerator(),
+        //     name: name,
+        //     price: price,
+        //     description: description
+        // }
+        // productsDataBase.push(newProd);
+        productsDataBase.push(new Product(prodID, name, price, description))
         saveProd();
     }
     
