@@ -93,7 +93,7 @@ document.getElementById("changeBut").addEventListener("click", function (event) 
 
     } else if (newName.length >= 21 || newPrice.length >=21 || newDescription.length>=21) {
         //чекает что бы ввод не превышал 20 символов
-        alert("Fields cannot be longer than 20 characters.");
+        alert("Input fields cannot be longer than 20 symbols.");
 
     } else {
         //переписывает значения ключей внутри обьекта под тем индексом под которым продуктинпутАЙДИ совпадает с числом внутри ключа продАЙДИ в массиве проддатабейс
